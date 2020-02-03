@@ -1,4 +1,4 @@
-import Plugin from './Plugin.js'
+import Plugin from './visualiser/plugins/Plugin.js'
 
 export default class Bar extends Plugin {
   #context
