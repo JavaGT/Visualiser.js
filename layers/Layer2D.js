@@ -6,7 +6,6 @@ export default class Layer2D extends Layer {
   #material
   #sprite
   #texture
-  type = 'Layer2D'
   constructor({width, height}){
     // magic numbers taken from
     const camera = new THREE.OrthographicCamera( - width / 2, width / 2, height / 2, - height / 2, 1, 10 )
@@ -27,6 +26,7 @@ export default class Layer2D extends Layer {
     this.#sprite.position.set(-this.width / 2, -this.height / 2, 1);
 
     this.scene.add(this.#sprite)
+    this.disposeables = [this.#sprite, this.#material, this.#texture]
   }
 
   get context(){ return this.#context }

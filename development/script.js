@@ -3,7 +3,7 @@ import {
   Layer2D,
   Layer3D
 } from "./visualiser/Visualiser.js";
-import Bar from "./Bar.js";
+import Bars from "./Bars.js";
 
 const width = 1280;
 const height = 720;
@@ -17,8 +17,8 @@ window.addEventListener(
     const layer = new Layer2D({ width, height });
     visualiser.addLayer(layer);
 
-    const bar = new Bar({ width, height, color: "#FF897E" });
-    layer.addPlugin(bar);
+    const bars = new Bars({ width, height, color: "#FF897E" });
+    layer.addPlugin(bars);
 
     document.body.appendChild(visualiser.canvas);
 
@@ -28,6 +28,7 @@ window.addEventListener(
     audioElement.src = audioPath;
     audioElement.play();
     visualiser.start();
+    console.log(visualiser.toConfig())
   },
   { once: true }
 );

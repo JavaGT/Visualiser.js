@@ -47,7 +47,7 @@ export default class Visualiser {
     if (layers)
       visualiser.addLayer(
         ...layers.map(layer => {
-          const layerType = { Layer2D, Layer3D }[layer.name];
+          const layerType = { Layer2D, Layer3D }[layer.type];
           return layerType.fromConfig(
             { options: layer.options, plugins: layer.plugins },
             plugins
@@ -89,6 +89,11 @@ export default class Visualiser {
   addLayer(...layers) {
     this.#layers.push(...layers);
     this.#layers.sort((a, b) => (a.zIndex || 0) - (b.zIndex || 0)); // support a zIndex
+  }
+
+  dispose() {
+    this.#layers.forEach(layer => layer.dispose());
+    this.stop();
   }
 
   connectAudioSource(source) {

@@ -6,7 +6,7 @@ export default class Layer {
   #three = {
     scene: new THREE.Scene()
   };
-
+  type = constructor.name;
   constructor({ width, height, camera }) {
     this.#options.width = width;
     this.#options.height = height;
@@ -29,24 +29,31 @@ export default class Layer {
 
   toConfig() {
     return {
-      name: this.constructor.name,
+      type: this.type,
       options: this.#options,
       plugins: this.#plugins.map(plugin => plugin.toConfig())
     };
   }
 
-  static fromConfig({options, plugins}, pluginList) {
-    console.log(options, plugins)
+  dispose() {
+    this.#three.scene.dispose();
+    this.#three.camera.dispose();
+    this.#plugins.forEach(item => item.dispose());
+    if (this.disposeables) this.disposeables.forEach(item => item.dispose());
+  }
+
+  static fromConfig({ options, plugins }, pluginList) {
+    console.log(options, plugins);
     const layer = new this(options);
     // const layer = new [options.name](options);
     if (plugins)
       layer.addPlugin(
         ...plugins.map(pluginInfo => {
-          const plugin = new pluginList[pluginInfo.name](pluginInfo.options);
+          const plugin = new pluginList[pluginInfo.type](pluginInfo.options);
           return plugin;
         })
       );
-      return layer
+    return layer;
   }
 
   addPlugin(plugin) {
@@ -54,6 +61,7 @@ export default class Layer {
     if (plugin.init) plugin.init(this);
     return plugin;
   }
+
   draw(information) {
     if (this.clear) this.clear();
 

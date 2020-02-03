@@ -1,8 +1,9 @@
 export default class Plugin {
+  type = constructor.name;
   toConfig() {
     return {
-      name: this.constructor.name,
-      options: this.options,
+      type: this.type,
+      options: this.options
     };
   }
 }
