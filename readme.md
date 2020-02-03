@@ -71,6 +71,7 @@ but you might notice the nothing happens, this is due to the web browser blockin
     visualiser.connectAudioSource(source);
     audioElement.src = audioPath
     audioElement.play()
+    visualiser.start()
 
   }, {once: true})
 </script>
